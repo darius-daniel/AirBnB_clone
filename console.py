@@ -154,7 +154,7 @@ class HBNBCommand(cmd.Cmd):
             elif len(args_list) < 4:
                 print("** value missing **")
                 return
-            
+
             with open("file.json", 'r') as file:
                 inst_dict = json.load(file)
 
