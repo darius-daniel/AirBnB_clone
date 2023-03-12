@@ -156,12 +156,17 @@ class HBNBCommand(cmd.Cmd):
                 return
             inst_dict = storage.all()
 
+            found = False
             for key, value in inst_dict.items():
                 k = key.split('.')
                 if k[1] == args_list[1]:
                     setattr(value, args_list[2], args_list[3])
                     storage.save()
+                    found = True
                     break
+
+            if not found:
+                print("** no instance found **")
 
 
 if __name__ == '__main__':
