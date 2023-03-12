@@ -34,6 +34,9 @@ class HBNBCommand(cmd.Cmd):
 
         return True
 
+    def help_help(self):
+        print("Displays information about commands")
+
     def do_EOF(self):
         """Exits the program from non-interactive mode"""
         return True
@@ -41,7 +44,7 @@ class HBNBCommand(cmd.Cmd):
     def do_quit(self, *args):
         """Quit command to exit the program
         """
-        quit()
+        return True
 
     def do_create(self, cls):
         """Creates a new instance of a class, saves it to the JSON file,
@@ -100,21 +103,17 @@ class HBNBCommand(cmd.Cmd):
         if self.check(line):
             found = False
             arg_list = line.split(" ")
+            inst_dict = storage.all()
 
-            with open("file.json", 'r') as file:
-                arg_dict = json.load(file)
-
-            for key in arg_dict.keys():
+            for key, value in inst_dict.items():
                 id = key.split(".")[1]
                 if id == arg_list[1]:
                     found = True
                     break
 
             if found:
-                del arg_dict[key]
-                with open("file.json", 'w') as file:
-                    json.dump(arg_dict, file)
-                print(storage.all())
+                del inst_dict[key]
+                storage.save()
             else:
                 print("** no instance found **")
 
@@ -147,22 +146,21 @@ class HBNBCommand(cmd.Cmd):
         """
         if self.check(line):
             args_list = line.split(" ")
-            print(args_list)
             if len(args_list) < 3:
-                print("** attribute name is missing **")
+                print("** attribute name missing **")
                 return
             elif len(args_list) < 4:
                 print("** value missing **")
                 return
+            print(storage.all())
+            inst_dict = storage.all()
 
-            with open("file.json", 'r') as file:
-                inst_dict = json.load(file)
-
-            key = args_list[0] + '.' + args_list[1]
-            inst_dict[key][args_list[2]] = args_list[3]
-            print(inst_dict)
-            # with open("file.json", 'w') as file:
-            #     json.dump(inst_dict, file)
+            for key, value in inst_dict.items():
+                k = key.split('.')
+                if k[1] == args_list[1]:
+                    setattr(value, args_list[2], args_list[3])
+                    storage.save()
+                    break
 
 
 if __name__ == '__main__':
