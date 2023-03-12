@@ -20,7 +20,7 @@ class HBNBCommand(cmd.Cmd):
         command. If they have been passed, it also checks if the exist
         """
         if not line:
-            print("** class name is missing **")
+            print("** class name missing **")
             return False
 
         arg_list = line.split(" ")
@@ -154,7 +154,6 @@ class HBNBCommand(cmd.Cmd):
             elif len(args_list) < 4:
                 print("** value missing **")
                 return
-            print(storage.all())
             inst_dict = storage.all()
 
             for key, value in inst_dict.items():
