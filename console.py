@@ -3,17 +3,24 @@
 """
 import cmd
 from models.base_model import BaseModel
-import json
 from models import storage
 from models.engine.file_storage import FileStorage
 from models.user import User
+from models.amenity import Amenity
+from models.city import City
+from models.place import Place
+from models.review import Review
+from models.state import State
 
 
 class HBNBCommand(cmd.Cmd):
     """Entry point to of the command interpreter
     """
     prompt = "(hbnb) "
-    __cls_dict = {"BaseModel": BaseModel, "User": User}
+    __cls_dict = {"BaseModel": BaseModel, "User": User,
+                  'Amenity': Amenity, 'City': City,
+                  'Place': Place, 'Review': Review, 'State': State
+                  }
 
     @staticmethod
     def check(line):
@@ -73,9 +80,7 @@ class HBNBCommand(cmd.Cmd):
         if self.check(line):
             found = False
             arg_list = line.split(" ")
-
-            with open("file.json", 'r') as file:
-                obj_dict = json.load(file)
+            obj_dict = storage.all()
 
             for key in obj_dict.keys():
                 id = key.split(".")[1]
@@ -84,8 +89,7 @@ class HBNBCommand(cmd.Cmd):
                     break
 
             if found:
-                new = HBNBCommand.__cls_dict[arg_list[0]](**obj_dict[key])
-                print(new)
+                print(obj_dict[key].__str__())
             else:
                 print("** no instance found **")
 
@@ -127,14 +131,13 @@ class HBNBCommand(cmd.Cmd):
         if not line:
             print("** class name is missing **")
         elif line in HBNBCommand.__cls_dict:
-            with open("file.json", 'r') as file:
-                inst_dict = json.load(file)
+            inst_dict = storage.all()
 
             inst_list = []
             for key, value in inst_dict.items():
                 k = key.split('.')[0]
-                new = HBNBCommand.__cls_dict[k](**value)
-                inst_list.append(new.__str__())
+                if k == line:
+                    inst_list.append(value.__str__())
 
             print(inst_list)
         else:

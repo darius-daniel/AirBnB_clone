@@ -6,6 +6,47 @@ from models.base_model import BaseModel
 import datetime
 
 
+class TestBaseModelNewInstance(unittest.TestCase):
+    """A suite of tests for the different methods of creating new instances
+    of the BaseModel class
+    """
+    def testNoInstanceAttributes(self):
+        """Tests on an instance created without any attributes passed
+        to __init__
+        """
+        model = BaseModel()
+
+        self.assertIsInstance(model, BaseModel)
+        self.assertIsInstance(model.id, str)
+        self.assertIsInstance(model.created_at, datetime.datetime)
+        self.assertIsInstance(model.updated_at, datetime.datetime)
+        self.assertEqual(model.updated_at, model.created_at)
+
+    def testCreateInstanceWithKwargs(self):
+        """Tests on an instance created with @**kwargs passed into
+        __init__
+        """
+        my_model = BaseModel()
+        my_model.name = "My_First_Model"
+        my_model.my_number = 89
+        my_model_json = my_model.to_dict()
+        my_new_model = BaseModel(**my_model_json)
+
+        self.assertIsNot(my_new_model, my_model)
+        self.assertIsInstance(my_new_model, BaseModel)
+        self.assertIsInstance(my_new_model.id, str)
+        self.assertIsInstance(my_new_model.created_at, datetime.datetime)
+        self.assertIsInstance(my_new_model.updated_at, datetime.datetime)
+        self.assertEqual(my_new_model.created_at, my_new_model.updated_at)
+        self.assertEqual(my_new_model.name, "My_First_Model")
+        self.assertEqual(my_new_model.name, my_model.name)
+        self.assertEqual(my_new_model.my_number, 89)
+        self.assertEqual(my_new_model.my_number, my_model.my_number)
+        self.assertEqual(my_new_model.id, my_model.id)
+        self.assertEqual(my_new_model.created_at, my_model.created_at)
+        self.assertEqual(my_new_model.to_dict(), my_model.to_dict())
+
+
 class TestBaseModelAttributes(unittest.TestCase):
     """A suite of tests for the attributes of the BaseModel class
     """
@@ -24,7 +65,18 @@ class TestBaseModelAttributes(unittest.TestCase):
         self.assertEqual('BaseModel', my_model_json['__class__'])
         self.assertEqual(self.my_model.id, my_model_json['id'])
 
-    def testSave(self):
+    def test_kwargs(self):
+        """Test the creation of the
+        """
+        pass
+
+
+class TestBaseModelsMethods(unittest.TestCase):
+    """Suite of tests for the methods of the BaseModel Class
+    """
+    my_model = BaseModel()
+
+    def test_save(self):
         """ Checks if save method updates the public instance instance
         attribute updated_at """
         self.my_model.first_name = "First"
@@ -42,6 +94,23 @@ class TestBaseModelAttributes(unittest.TestCase):
 
         self.assertEqual(first_dict['created_at'], sec_dict['created_at'])
         self.assertNotEqual(first_dict['updated_at'], sec_dict['updated_at'])
+
+    def test_to_dict(self):
+        """Tests on the return value of the to_dict() method
+        """
+        model = BaseModel()
+        model.first_name = "Julien"
+        model.last_name = "Barbier"
+        model.password = '1234'
+        model.email = 'julienb@holbertonschool.com'
+
+        model_dict = model.__dict__.copy()
+        model_dict['__class__'] = str(model.__class__.__name__)
+        model_dict['created_at'] = model_dict['created_at'].isoformat()
+        model_dict['updated_at'] = model_dict['updated_at'].isoformat()
+
+        self.assertDictEqual(model_dict, model.to_dict())
+
 
 if __name__ == '__main__':
     unittest.main()
