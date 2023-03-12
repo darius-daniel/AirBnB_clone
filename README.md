@@ -18,3 +18,5 @@ Clone the repository and run the python script `console.py`
 `destroy <class name> <id>` - deletes an instance based on the class name and id
 
 `update <class name> <id> <attribute name> <attribute value>` updates an instance based on the class name and id by adding or updating attributes
+
+`help <cmd>` - get information about a command

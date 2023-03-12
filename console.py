@@ -88,8 +88,10 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print("** no instance found **")
 
-    def do_emptyline(self):
-        """Overrides the default behaviour of the builtin emptyline() method
+    def emptyline(self):
+        """Overrides the default behaviour of the builtin emptyline() method,
+        making it to do nothing when empty line is passed to command
+        interpreter
         """
         pass
 
