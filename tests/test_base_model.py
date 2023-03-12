@@ -14,7 +14,7 @@ class TestBaseModelAttributes(unittest.TestCase):
     def testBaseModel1(self):
         """ Test attributes value of a BaseModel instance """
 
-        self.my_model.name = "Holberton"
+        self.my_model.name = "ALX"
         self.my_model.my_number = 89
         self.my_model.save()
         my_model_json = self.my_model.to_dict()
