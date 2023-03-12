@@ -43,8 +43,9 @@ class FileStorage:
         Otherwise, do nothing and raise no exceptions
         """
         from models.base_model import BaseModel
+        from models.user import User
 
-        cls_dct = {'BaseModel': BaseModel}
+        cls_dct = {'BaseModel': BaseModel, 'User': User}
         if os.path.exists(FileStorage.__file_path):
             with open(FileStorage.__file_path, 'r') as file:
                 for item in json.load(file).values():

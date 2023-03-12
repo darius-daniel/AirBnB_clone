@@ -6,13 +6,14 @@ from models.base_model import BaseModel
 import json
 from models import storage
 from models.engine.file_storage import FileStorage
+from models.user import User
 
 
 class HBNBCommand(cmd.Cmd):
     """Entry point to of the command interpreter
     """
     prompt = "(hbnb) "
-    __cls_dict = {"BaseModel": BaseModel}
+    __cls_dict = {"BaseModel": BaseModel, "User": User}
 
     @staticmethod
     def check(line):
