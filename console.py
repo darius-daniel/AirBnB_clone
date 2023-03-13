@@ -43,6 +43,8 @@ class HBNBCommand(cmd.Cmd):
         return True
 
     def help_help(self):
+        """Displays information about the commands
+        """
         print("Displays information about commands")
 
     def do_EOF(self):
