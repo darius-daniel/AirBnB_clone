@@ -21,6 +21,18 @@ class HBNBCommand(cmd.Cmd):
                   'Amenity': Amenity, 'City': City,
                   'Place': Place, 'Review': Review, 'State': State
                   }
+    
+    __cmd_list = ['create', 'show', 'update', 'all', 'destroy', 'count']
+
+    def precmd(self, arg):
+        """parses command input"""
+        if '.' in arg and '(' in arg and ')' in arg:
+            cls = arg.split('.')
+            method = cls[1].split('(')
+            args = method[1].split(')')
+            if cls[0] in HBNBCommand.__cls_dict and method[0] in HBNBCommand.__cmd_list:
+                arg = method[0] + ' ' + cls[0] + ' ' + args[0]
+        return arg
 
     @staticmethod
     def check(line):
@@ -173,6 +185,18 @@ class HBNBCommand(cmd.Cmd):
 
             if not found:
                 print("** no instance found **")
+
+    def do_count(self, cls):
+        """Counts the number of instances of @cls in existence
+        """
+        all_instances = storage.all()
+        num_instances = 0
+
+        for key in all_instances.keys():
+            if cls in key:
+                num_instances += 1
+
+        print(num_instances)
 
 
 if __name__ == '__main__':
