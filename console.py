@@ -21,7 +21,7 @@ class HBNBCommand(cmd.Cmd):
                   'Amenity': Amenity, 'City': City,
                   'Place': Place, 'Review': Review, 'State': State
                   }
-    
+
     __cmd_list = ['create', 'show', 'update', 'all', 'destroy', 'count']
 
     def precmd(self, arg):
