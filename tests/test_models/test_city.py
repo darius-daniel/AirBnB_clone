@@ -97,7 +97,7 @@ class TestCityMethods(unittest.TestCase):
         with self.assertRaises(KeyError):
             self.assertEqual(city.name, obj['name'])
 
-        self.assertEqual(city.name, 'Cable')
+        self.assertEqual(city.name, 'Nairobi')
 
         city.name = "Johannesburg"
         city.save()
