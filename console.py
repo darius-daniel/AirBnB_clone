@@ -30,8 +30,9 @@ class HBNBCommand(cmd.Cmd):
             cls = arg.split('.')
             method = cls[1].split('(')
             args = method[1].split(')')
-            if cls[0] in HBNBCommand.__cls_dict and method[0] in HBNBCommand.__cmd_list:
-                arg = method[0] + ' ' + cls[0] + ' ' + args[0]
+            if cls[0] in HBNBCommand.__cls_dict:
+                if method[0] in HBNBCommand.__cmd_list:
+                    arg = method[0] + ' ' + cls[0] + ' ' + args[0]
         return arg
 
     @staticmethod
@@ -177,7 +178,7 @@ class HBNBCommand(cmd.Cmd):
             found = False
             for key, value in inst_dict.items():
                 k = key.split('.')
-                if k[1] == args_list[1]:
+                if k[1] == args_list[1] and k[0] == value.__class__.__name__:
                     setattr(value, args_list[2], args_list[3])
                     storage.save()
                     found = True
