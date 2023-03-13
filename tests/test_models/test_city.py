@@ -6,6 +6,7 @@ import datetime
 import json
 import unittest
 
+
 class TestCityNewInstance(unittest.TestCase):
     """Collection of tests for the different ways of creating a new City
     instance

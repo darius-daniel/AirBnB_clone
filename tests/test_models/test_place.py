@@ -32,7 +32,7 @@ class TestPlaceAttributes(unittest.TestCase):
         self.assertTrue(hasattr(place, 'latitude'))
         self.assertTrue(hasattr(place, 'longitude'))
         self.assertTrue(hasattr(place, 'amenity_ids'))
-        
+
     def test_check_attr_type(self):
         """Checks the type of each attribute
         """
@@ -55,6 +55,7 @@ class TestPlaceAttributes(unittest.TestCase):
         self.assertIsInstance(place.latitude, float)
         self.assertIsInstance(place.longitude, float)
         self.assertIsInstance(place.amenity_ids, list)
+
 
 class TestPlaceMethods(unittest.TestCase):
     """Tests all the methods of the Place class
