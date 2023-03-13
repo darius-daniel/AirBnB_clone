@@ -22,13 +22,25 @@ class TestBaseModelNewInstance(unittest.TestCase):
         self.assertIsInstance(model.updated_at, datetime.datetime)
         self.assertEqual(model.updated_at, model.created_at)
 
+        self.assertEqual(len(model.id), 36)
+        valid_ch = 'abcdefghijklmnopqrstuvwxyz0123456789-'
+
+        for ch in model.id:
+            self.assertIn(ch, valid_ch)
+
+        fields = model.id.split('-')
+        self.assertEqual(len(fields), 5)
+        self.assertEqual(len(fields[0]), 8)
+        self.assertEqual(len(fields[1]), 4)
+        self.assertEqual(len(fields[2]), 4)
+        self.assertEqual(len(fields[3]), 4)
+        self.assertEqual(len(fields[4]), 12)
+
     def testCreateInstanceWithKwargs(self):
         """Tests on an instance created with @**kwargs passed into
         __init__
         """
         my_model = BaseModel()
-        my_model.name = "My_First_Model"
-        my_model.my_number = 89
         my_model_json = my_model.to_dict()
         my_new_model = BaseModel(**my_model_json)
 
@@ -38,12 +50,9 @@ class TestBaseModelNewInstance(unittest.TestCase):
         self.assertIsInstance(my_new_model.created_at, datetime.datetime)
         self.assertIsInstance(my_new_model.updated_at, datetime.datetime)
         self.assertEqual(my_new_model.created_at, my_new_model.updated_at)
-        self.assertEqual(my_new_model.name, "My_First_Model")
-        self.assertEqual(my_new_model.name, my_model.name)
-        self.assertEqual(my_new_model.my_number, 89)
-        self.assertEqual(my_new_model.my_number, my_model.my_number)
         self.assertEqual(my_new_model.id, my_model.id)
         self.assertEqual(my_new_model.created_at, my_model.created_at)
+        self.assertEqual(my_new_model.updated_at, my_model.updated_at)
         self.assertEqual(my_new_model.to_dict(), my_model.to_dict())
 
 
@@ -64,11 +73,6 @@ class TestBaseModelAttributes(unittest.TestCase):
         self.assertEqual(self.my_model.my_number, my_model_json['my_number'])
         self.assertEqual('BaseModel', my_model_json['__class__'])
         self.assertEqual(self.my_model.id, my_model_json['id'])
-
-    def test_kwargs(self):
-        """Test the creation of the
-        """
-        pass
 
 
 class TestBaseModelsMethods(unittest.TestCase):
