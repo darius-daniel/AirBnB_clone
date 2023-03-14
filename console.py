@@ -24,16 +24,29 @@ class HBNBCommand(cmd.Cmd):
 
     __cmd_list = ['create', 'show', 'update', 'all', 'destroy', 'count']
 
-    def precmd(self, arg):
-        """parses command input"""
-        if '.' in arg and '(' in arg and ')' in arg:
-            cls = arg.split('.')
-            method = cls[1].split('(')
-            args = method[1].split(')')
-            if cls[0] in HBNBCommand.__cls_dict:
-                if method[0] in HBNBCommand.__cmd_list:
-                    arg = method[0] + ' ' + cls[0] + ' ' + args[0]
-        return arg
+    def precmd(self, line):
+        """Parses command input to the interpreter
+        """
+        if '.' in line and '(' in line and ')' in line:
+            line_parts = line.split('.')
+            cls = line_parts[0]
+
+            method_and_args = line_parts[1].split('(')
+            method = method_and_args[0]
+            args = method_and_args[1].split(", ")
+            args[-1] = args[-1].split(")")[0]
+
+            for i in range(len(args)):
+                if args[i].startswith('"') and args[i].endswith('"'):
+                    args[i] = args[i].strip('"')
+
+            args = ' '.join(args)
+
+            if cls in HBNBCommand.__cls_dict:
+                if method in HBNBCommand.__cmd_list:
+                    line = method + ' ' + cls + ' ' + args
+
+        return line
 
     @staticmethod
     def check(line):
@@ -177,8 +190,7 @@ class HBNBCommand(cmd.Cmd):
 
             found = False
             for key, value in inst_dict.items():
-                k = key.split('.')
-                if k[1] == args_list[1] and k[0] == value.__class__.__name__:
+                if args_list[0] in key and args_list[1].strip('"') in key:
                     setattr(value, args_list[2], args_list[3])
                     storage.save()
                     found = True
