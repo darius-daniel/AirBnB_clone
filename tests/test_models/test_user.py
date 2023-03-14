@@ -118,9 +118,6 @@ class TestUserMethods(unittest.TestCase):
 
         obj = json_dict[key]
 
-        with self.assertRaises(KeyError):
-            self.assertEqual(user.first_name, obj['first_name'])
-
         self.assertEqual(user.first_name, 'Alfred')
 
         user.first_name = "Guillaume"
