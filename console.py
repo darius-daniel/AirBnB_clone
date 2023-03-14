@@ -191,7 +191,11 @@ class HBNBCommand(cmd.Cmd):
             found = False
             for key, value in inst_dict.items():
                 if args_list[0] in key and args_list[1].strip('"') in key:
-                    setattr(value, args_list[2], args_list[3])
+                    if isinstance(args_list[3], dict):
+                        for k, v in args_list[3].items():
+                            setattr(value, k, v)
+                    else:
+                        setattr(value, args_list[2], args_list[3])
                     storage.save()
                     found = True
                     break
