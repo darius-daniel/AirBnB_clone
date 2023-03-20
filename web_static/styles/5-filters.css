@@ -1,0 +1,72 @@
+.container {
+    min-width: 1000px;
+    margin: 30px auto;
+}
+
+.filters {
+    background-color: white;
+    height: 70px;
+    width: 100%;
+    border: 1px #DDDDDD solid;
+    border-radius: 4px;
+    text-align: right;
+    line-height: 70px;
+    padding-right: 30px;
+}
+
+.contain-float::before,
+.contain-float::after {
+    content: "";
+    display: table;
+}
+
+.contain-float::after {
+    clear: both;
+}
+
+.contain-float {
+    clear: both;
+    *zoom: 1;
+}
+
+button {
+    font-size: 18px;
+    background-color: #FF5A5F;
+    color: #FFFFFF;
+    height: 48px;
+    width: 20%;
+    border: 1px solid #FF5A5F;
+    border-radius: 4px;
+}
+
+button:hover {
+    opacity: 90%;
+}
+
+.locations,
+.amenities {
+    box-sizing: border-box;
+    float: left;
+    height: 100%;
+    width: 25%;
+    padding: 22px 50px;
+    text-align: left;
+    line-height: 100%;
+}
+
+.locations {
+    border-right: 1px #DDDDDD solid;
+}
+
+.locations h3,
+.amenities h3 {
+    display: inline;
+    font-weight: 600;
+}
+
+.locations h4,
+.amenities h4 {
+    display: flex;
+    font-weight: 400;
+    font-size: 14px;
+}

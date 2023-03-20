@@ -178,6 +178,7 @@ class HBNBCommand(cmd.Cmd):
         Args:
             line: a string containing a space-separated list of arguments
         """
+        print("Line: {}".format(line))
         if self.check(line):
             args_list = line.split(" ")
             if len(args_list) < 3:
@@ -189,11 +190,23 @@ class HBNBCommand(cmd.Cmd):
             inst_dict = storage.all()
 
             found = False
+            if "{" in line:
+                attr_dict = "{" + line.split("{")[1]
+                attr_dict = attr_dict.strip('"')
+                print("attr_dict: {}".format(attr_dict))
+                new_str = ""
+                for i in range(1, len(attr_dict) - 1):
+                    if attr_dict[i - 1] != ':' and attr_dict[i] == ' ':
+                        new_str += ',' + attr_dict[i]
+                    else:
+                        new_str += attr_dict[i]
+
+                print("attr_dict: {}".format(attr_dict))
             for key, value in inst_dict.items():
                 if args_list[0] in key and args_list[1].strip('"') in key:
                     if isinstance(args_list[3], dict):
                         for k, v in args_list[3].items():
-                            setattr(value, k, v)
+                            setattr()
                     else:
                         setattr(value, args_list[2], args_list[3])
                     storage.save()
